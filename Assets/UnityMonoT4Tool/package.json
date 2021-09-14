@@ -1,0 +1,7 @@
+{
+  "name": "jp.ilib.unity-mono-t4-tool",
+  "displayName": "UnityMonoT4Tool",
+  "version": "0.0.1",
+  "unity": "2020.3",
+  "description": "Unity Mono T4 Tool"
+}

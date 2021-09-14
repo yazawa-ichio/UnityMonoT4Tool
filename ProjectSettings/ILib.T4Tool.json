@@ -1,0 +1,10 @@
+{
+    "m_Config": {
+        "AutoInputOutput": true,
+        "InputDir": "",
+        "AutoRefAssemblies": true,
+        "RefAssemblies": [],
+        "Import": [],
+        "Parameters": []
+    }
+}
