@@ -1,9 +1,9 @@
 using System;
+using UnityEngine;
 
 namespace ILib.UnityMonoT4Tool
 {
-	[Serializable]
-	public class Config
+	public class GenerateSetting : ScriptableObject
 	{
 		[Serializable]
 		public class Parameter
@@ -11,15 +11,10 @@ namespace ILib.UnityMonoT4Tool
 			public string Key;
 			public string Value;
 		}
-
-		public bool AutoInputOutput = true;
-		public string InputDir;
-
+		public string InputRootDirectory;
 		public bool AutoRefAssemblies = true;
 		public string[] RefAssemblies = Array.Empty<string>();
-
 		public string[] Using = Array.Empty<string>();
 		public Parameter[] Parameters = Array.Empty<Parameter>();
 	}
-
 }

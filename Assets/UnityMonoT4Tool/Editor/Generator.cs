@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using UnityEditor;
 using UnityEngine;
@@ -11,21 +12,17 @@ namespace ILib.UnityMonoT4Tool
 {
 	public class Generator
 	{
-		Config m_Config;
-		public Generator(Config config)
+		GenerateSetting m_Settings;
+		public Generator(GenerateSetting setting)
 		{
-			m_Config = config;
+			m_Settings = setting;
 		}
 
 		public void Run(bool dryrun = false)
 		{
 			var baseArgs = GetBaseArguments(dryrun);
-			string root = m_Config.InputDir;
-			if (m_Config.AutoInputOutput)
-			{
-				root = Application.dataPath;
-			}
-			var paths = System.IO.Directory.GetFiles(root, "*.tt", System.IO.SearchOption.AllDirectories);
+			string root = Path.Combine(Application.dataPath, m_Settings.InputRootDirectory ?? "");
+			var paths = Directory.GetFiles(root, "*.tt", System.IO.SearchOption.AllDirectories);
 			try
 			{
 				for (int i = 0; i < paths.Length; i++)
@@ -50,8 +47,8 @@ namespace ILib.UnityMonoT4Tool
 		{
 			var builder = new StringBuilder();
 			builder.Append(" \"{INPUT} \" ");
-			var assemblies = new HashSet<string>(m_Config.RefAssemblies);
-			if (m_Config.AutoRefAssemblies)
+			var assemblies = new HashSet<string>(m_Settings.RefAssemblies);
+			if (m_Settings.AutoRefAssemblies)
 			{
 				// TODO:プロジェクトに紐づくものだけにする
 				foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
@@ -67,11 +64,11 @@ namespace ILib.UnityMonoT4Tool
 			{
 				builder.Append($"-r \"{assembly}\" ");
 			}
-			foreach (var _using in m_Config.Using)
+			foreach (var _using in m_Settings.Using)
 			{
 				builder.Append($"-u \"{_using}\" ");
 			}
-			foreach (var prm in m_Config.Parameters)
+			foreach (var prm in m_Settings.Parameters)
 			{
 				builder.Append($"-p {prm.Key}:{prm.Value} ");
 			}

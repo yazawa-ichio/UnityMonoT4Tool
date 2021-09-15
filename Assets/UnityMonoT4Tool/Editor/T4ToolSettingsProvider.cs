@@ -17,7 +17,7 @@ namespace ILib.UnityMonoT4Tool
 			var path = "Project/T4Tool";
 			var provider = new T4ToolSettingsProvider(path, SettingsScope.Project);
 
-			CommonSettings settings = ScriptableObject.CreateInstance<CommonSettings>();
+			GenerateSetting settings = ScriptableObject.CreateInstance<GenerateSetting>();
 			if (File.Exists(SettingPath))
 			{
 				try
@@ -35,7 +35,7 @@ namespace ILib.UnityMonoT4Tool
 			return provider;
 		}
 
-		CommonSettings m_Settings;
+		GenerateSetting m_Settings;
 		SerializedObject m_SerializedObject;
 
 		public T4ToolSettingsProvider(string path, SettingsScope scopes, IEnumerable<string> keywords = null) : base(path, scopes, keywords)
@@ -44,22 +44,22 @@ namespace ILib.UnityMonoT4Tool
 
 		public override void OnGUI(string searchContext)
 		{
-			var property = m_SerializedObject.FindProperty("m_Config");
-
 			EditorGUILayout.LabelField("CommonSetting Generate");
-			EditorGUILayout.PropertyField(property.FindPropertyRelative("AutoRefAssemblies"), true);
-			EditorGUILayout.PropertyField(property.FindPropertyRelative("RefAssemblies"), true);
-			EditorGUILayout.PropertyField(property.FindPropertyRelative("Using"), true);
-			EditorGUILayout.PropertyField(property.FindPropertyRelative("Parameters"), true);
 
+			var property = m_SerializedObject.GetIterator();
+			property.NextVisible(true);
+			while (property.NextVisible(false))
+			{
+				EditorGUILayout.PropertyField(property, true);
+			}
 			m_SerializedObject.ApplyModifiedProperties();
 			if (GUILayout.Button("Generate"))
 			{
-				new Generator(m_Settings.Config).Run();
+				new Generator(m_Settings).Run();
 			}
 			if (GUILayout.Button("Dryrun"))
 			{
-				new Generator(m_Settings.Config).Run(dryrun: true);
+				new Generator(m_Settings).Run(dryrun: true);
 			}
 			if (GUILayout.Button("Save"))
 			{
