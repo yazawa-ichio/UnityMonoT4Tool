@@ -89,6 +89,12 @@
         "com.unity.modules.imgui": "1.0.0"
       }
     },
+    "jp.ilib.unity-mono-t4-tool": {
+      "version": "file:jp.ilib.unity-mono-t4-tool",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
     "com.unity.modules.ai": {
       "version": "1.0.0",
       "depth": 0,

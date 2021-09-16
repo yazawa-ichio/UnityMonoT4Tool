@@ -57,7 +57,7 @@ namespace ILib.UnityMonoT4Tool
 			{
 				new Generator(m_Settings).Run();
 			}
-			if (GUILayout.Button("Dryrun"))
+			if (GUILayout.Button("Dry Run"))
 			{
 				new Generator(m_Settings).Run(dryrun: true);
 			}

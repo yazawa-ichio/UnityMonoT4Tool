@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Text;
 using UnityEditor;
@@ -81,6 +82,12 @@ namespace ILib.UnityMonoT4Tool
 
 		void StartProcess(string args)
 		{
+			Encoding encoding = Encoding.UTF8;
+			try
+			{
+				encoding = Encoding.GetEncoding(CultureInfo.CurrentCulture.TextInfo.OEMCodePage) ?? Encoding.UTF8;
+			}
+			catch { }
 			ProcessStartInfo startInfo = new ProcessStartInfo()
 			{
 				FileName = "t4",
@@ -90,8 +97,8 @@ namespace ILib.UnityMonoT4Tool
 				RedirectStandardOutput = true,
 				RedirectStandardError = true,
 				CreateNoWindow = true,
-				StandardOutputEncoding = Encoding.UTF8,
-				StandardErrorEncoding = Encoding.UTF8,
+				StandardOutputEncoding = encoding,
+				StandardErrorEncoding = encoding,
 				WorkingDirectory = UnityEngine.Application.dataPath,
 			};
 			using (Process process = Process.Start(startInfo))
